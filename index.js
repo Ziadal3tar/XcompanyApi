@@ -29,7 +29,7 @@ app.use('/user', indexRouter.userRouter)
 app.use('/orders', indexRouter.ordersRouter)
 app.use('/payment', indexRouter.paymentRouter)
 
-app.get('/', (req, res) => res.send('velocity apis!'))
+app.get('/', (req, res) => res.send('X company apis!'))
 
 app.use('*', (req, res, next) => {
     res.send("In-valid Route pls check url or method")
