@@ -22,7 +22,7 @@ export const proceedPayment = asyncHandler(async (req, res, next) => {
         res.json({ data: "success" })
     })
     .catch((err) => {
-        console.log(err);
+
         res.json({ data: "failure" })
     })
 })  
