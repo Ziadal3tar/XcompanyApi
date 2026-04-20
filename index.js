@@ -13,11 +13,29 @@ import express from 'express'
 const app = express()
 import connection from './DB/connection.js'
 import { globalError } from './src/services/asyncHandler.js'
-import cors  from "cors"
 import * as indexRouter from './src/module/index.router.js'
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(bodyParser.json())
-app.use(cors());
+import cors from "cors";
+
+const allowedOrigins = [
+  "http://localhost:4200",
+  "https://ziadal3tar.github.io"
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // للسماح بطلبات زي Postman أو بدون origin
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
 const port = process.env.PORT
 app.use(express.static('public'));
 app.use(express.json())
