@@ -1,59 +1,86 @@
 import { Schema, model, Types } from "mongoose";
 
-
 const servicesSchema = new Schema({
-    servicesName: {
-        type: String,
-        required: [true, 'Services name is required'],
-        min: [2, 'minimum length 2 char'],
+  servicesName: {
+    type: String,
+    required: true,
+    trim: true
+  },
 
-    },
-    servicesDescription: {
-        type: String,
-        required: [true, 'Services description is required'],
-        min: [2, 'minimum length 2 char'],
+  slug: {
+    type: String,
+    unique: true
+  },
 
-    },
-    servicesBrief: {
-        type: String,
-        required: [true, 'Services description is required'],
-        min: [2, 'minimum length 2 char'],
+  servicesBrief: {
+    type: String,
+    required: true
+  },
 
-    },
-    servicesPrice: {
-        type: Number,
-        required: [true, 'Services price is required'],
-        min: [2, 'minimum length 2 char'],
+  servicesDescription: {
+    type: String,
+    required: true
+  },
 
-    },
+  servicesPrice: {
+    type: Number,
+    required: true
+  },
 
-    image:{
-        type:String,
-        default:'https://res.cloudinary.com/dqaf8jxn5/image/upload/v1671116089/1106076_n5oakd.png'
-    },
-    imageId: String,
+  currency: {
+    type: String,
+    default: 'USD'
+  },
 
-    pointes: {
-      type: [
-        {
-          title: {
-            type: String,
-          },
-          description: {
-            type: String,
-          }
-        },
-      ],
-    },
+  image: {
+    type: String,
+    required: true
+  },
 
-    orders: {
-      type: [Types.ObjectId],
-      ref: "orders",
+  gallery: {
+    type: [String],
+    default: []
+  },
 
-    },
+  category: {
+    type: String,
+    required: true
+  },
+
+  tags: {
+    type: [String],
+    default: []
+  },
+
+  features: [
+    {
+      title: String,
+      description: String,
+      icon: String
+    }
+  ],
+
+  benefits: {
+    type: [String],
+    default: []
+  },
+
+  duration: String,
+  deliveryType: String,
+
+  rating: {
+    type: Number,
+    default: 4.5
+  },
+
+  reviewsCount: {
+    type: Number,
+    default: 0
+  }
+
 }, {
-    timestamps: true
-})
+  timestamps: true
+});
 
 const servicesModel = model('services', servicesSchema);
-export default servicesModel
+export default servicesModel;

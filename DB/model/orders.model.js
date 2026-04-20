@@ -1,27 +1,32 @@
 import { Schema, model, Types } from "mongoose";
 
-
 const ordersSchema = new Schema({
   clientId: {
     type: Types.ObjectId,
     ref: "User",
-    required: [true, "User  is required"],
+    required: true,
   },
-    status:{
-        type:String,
-default:'In progress',
-        enum: ['Done', 'In progress','Canceled']
-    },
 
-    service: {
-      type: Types.ObjectId,
-      ref: "services",
-      required: [true, "services  is required"],
-    },
+  service: {
+    type: Types.ObjectId,
+    ref: "services",
+    required: true,
+  },
+
+  serviceSnapshot: {
+    name: String,
+    price: Number
+  },
+
+  status: {
+    type: String,
+    default: 'In progress',
+    enum: ['Done', 'In progress', 'Canceled']
+  }
 
 }, {
-    timestamps: true
-})
+  timestamps: true
+});
 
 const ordersModel = model('orders', ordersSchema);
-export default ordersModel
+export default ordersModel;

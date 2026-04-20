@@ -12,5 +12,6 @@ router.get("/", (req, res) => {
 router.post("/addServices",myMulter(fileValidation.image).array("image"), HME, servicesControl.addServices)
 router.put("/editServices",myMulter(fileValidation.image).array("image"), HME, servicesControl.editServices)
 router.get("/getAllServices", servicesControl.getAllServices)
+router.get("/:id", servicesControl.getServiceById);
 router.delete("/deleteService/:id", servicesControl.deleteService)
 export default router

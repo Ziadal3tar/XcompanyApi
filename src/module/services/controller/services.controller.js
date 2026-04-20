@@ -3,13 +3,13 @@ import { asyncHandler } from '../../../services/asyncHandler.js';
 import { findById, findByIdAndDelete, findOneAndUpdate, findOne, find, findByIdAndUpdate, create, findOneAndDelete } from '../../../../DB/DBMethods.js';
 import cloudinary from '../../../services/cloudinary.js'
 import servicesModel from '../../../../DB/model/services.model.js';
-
+import mongoose from 'mongoose';
 const getServicesPop = [
 
 
-  {
-    path: "orders",
-},
+//   {
+//     path: "orders",
+// },
 
 ];
 
@@ -96,7 +96,38 @@ export const editServices = asyncHandler(async (req, res, next) => {
   }
 
 })
+export const getServiceById = async (req, res) => {
+  try {
+    const { id } = req.params;
 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid ID" });
+    }
+
+    const service = await servicesModel.findById(id);
+
+    if (!service) {
+      return res.status(404).json({ message: "Service not found" });
+    }
+
+    const related = await servicesModel.find({
+      category: service.category,
+      _id: { $ne: service._id }
+    }).limit(4);
+
+    res.status(200).json({
+      message: "success",
+      service,
+      related
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      error: error.message
+    });
+  }
+};
 export const deleteService = asyncHandler(async (req, res, next) => {
   let { id } = req.params
   let service = await findByIdAndDelete({ model: servicesModel, condition: id })

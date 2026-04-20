@@ -1,35 +1,64 @@
 import { Schema, model, Types } from "mongoose";
 
-
 const clientsSchema = new Schema({
-    clientName: {
-        type: String,
-        required: [true, 'Client name is required'],
-        min: [2, 'minimum length 2 char'],
+  clientName: {
+    type: String,
+    required: true
+  },
 
-    },
-    image:{
-        type:String,
-    },
-    imageId: String,
-    clientServices: {
-      type: [
+  slug: String,
+
+  logo: String,
+  coverImage: String,
+
+  industry: String,
+
+  description: String,
+  website: String,
+
+  stats: {
+    projectsDone: { type: Number, default: 0 },
+    growth: { type: String, default: "0%" },
+    duration: String
+  },
+
+  servicesUsed: [
+    {
+      serviceId: {
+        type: Types.ObjectId,
+        ref: "services"
+      },
+      serviceName: String
+    }
+  ],
+
+  projects: [
+    {
+      title: String,
+      description: String,
+      images: {
+        type: [String],
+        default: []
+      },
+
+      results: [
         {
-          name: {
-            type: String,
-          },
-          imagesUrls:{
-            type:[String],
-        },
-        imageIds: [String],
-        },
-      ],
-    },
+          label: String,
+          value: String
+        }
+      ]
+    }
+  ],
 
+  testimonial: {
+    text: String,
+    author: String,
+    position: String
+  }
 
 }, {
-    timestamps: true
-})
+  timestamps: true
+});
 
 const clientsModel = model('clients', clientsSchema);
-export default clientsModel
+export default clientsModel;
