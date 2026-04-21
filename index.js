@@ -45,4 +45,4 @@ app.use('*', (req, res, next) => {
 
 app.use(globalError)
 connection()
-export default app
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
