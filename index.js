@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 const __direname = path.dirname(fileURLToPath(import.meta.url))
 // -----------
 import stripe from 'stripe'
-stripe('sk_test_51MxafiDlUdQmc698VshMfXJCYCDQDeH1jggtJnJhB5tI4lSDnDhrzHgxiTlSYw16LQB7vCNnMX88hvhOLsDn4UiY00SY4YxfoZ');
+stripe(process.env.STRIPE_SECRET_KEY);
 // import bodyParser from 'body-parser'
 // ---------
 dotenv.config({ path: path.join(__direname, './config/.env') })
@@ -22,7 +22,9 @@ var corsOption = {
     origin: "*",
     optionsSuccessStatus: 200
 }
-app.use(cors("*"))
+app.use(cors({
+  origin: "*",
+}))
 const port = process.env.PORT
 // app.use(express.static('public'));
 app.use(express.json())
@@ -43,4 +45,4 @@ app.use('*', (req, res, next) => {
 
 app.use(globalError)
 connection()
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+export default app
